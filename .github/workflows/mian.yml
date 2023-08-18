@@ -146,6 +146,7 @@ jobs:
           #php -m
           #php -r "echo ini_get('extension_dir');"
   ceshix:
+    if: false
     name: ceshi
     runs-on: "windows-latest"
     steps:
@@ -183,6 +184,7 @@ jobs:
           )
           where clang_rt.*
   echo:
+    if: false
     name: echo
     runs-on: "ubuntu-latest"
     steps:
@@ -194,6 +196,7 @@ jobs:
       - name: echo
         uses: dixyes/actionsecho@main
   echo2:
+    if: false
     name: echo2
     runs-on: "windows-latest"
     steps:
@@ -279,6 +282,7 @@ jobs:
         run: |
           mysql --host=127.0.0.1 --port=3306 --user=root -e "show databases;"
   wth:
+    if: false
     name: ceshhhh
     runs-on: 'ubuntu-latest'
     strategy:
@@ -289,3 +293,13 @@ jobs:
       - name: echo
         run: |
           echo ${{matrix.name}}
+  ceshin:
+    name: ceshin
+    runs-on: 'ubuntu-latest'
+    container: 'alpine'
+    steps:
+      - name: debug
+        run: |
+          set +e
+          which node
+          /lib/ld-musl-x86_64.so.1 --list `which node`
