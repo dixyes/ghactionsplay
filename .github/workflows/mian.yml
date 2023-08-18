@@ -316,5 +316,6 @@ jobs:
         run: |
           set +e
           set -x
+          apk add gcompat libstdc++
           which node
           /lib/ld-musl-x86_64.so.1 --list `which node`
