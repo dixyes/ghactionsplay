@@ -319,3 +319,4 @@ jobs:
           apk add gcompat libstdc++
           which node
           /lib/ld-musl-x86_64.so.1 --list `which node`
+          node -v
