@@ -312,6 +312,7 @@ jobs:
           node-version: '16'
 
       - name: debugafter
+        if: always()
         run: |
           set +e
           set -x
