@@ -301,5 +301,19 @@ jobs:
       - name: debug
         run: |
           set +e
+          set -x
+          which node
+          /lib/ld-musl-x86_64.so.1 --list `which node`
+          
+      - name: Setup node
+        if: always()
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: debugafter
+        run: |
+          set +e
+          set -x
           which node
           /lib/ld-musl-x86_64.so.1 --list `which node`
