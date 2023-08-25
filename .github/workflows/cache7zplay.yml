@@ -35,7 +35,7 @@ jobs:
     - name: Checkout kernel
       uses: actions/checkout@v3
       with:
-        repository: torvalds/kernel
+        repository: torvalds/linux
         path: kernel
 
     - name: Checkout cache
