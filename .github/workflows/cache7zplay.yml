@@ -19,9 +19,6 @@ jobs:
             toolkit: dixyes/toolkit
             branch: main
     steps:
-    - name: linux code git config
-      run: |
-        git config --global core.protectNTFS false
 
     - name: Checkout curl
       uses: actions/checkout@v3
@@ -35,11 +32,11 @@ jobs:
         repository: openssl/openssl
         path: curl
 
-    - name: Checkout kernel
+    - name: Checkout gecko
       uses: actions/checkout@v3
       with:
-        repository: torvalds/linux
-        path: kernel
+        repository: mozilla/gecko-dev
+        path: gecko
 
     - name: Checkout chromium
       uses: actions/checkout@v3
@@ -87,8 +84,8 @@ jobs:
 
     - name: Save cache using saveCache() - huge codebase
       run: |
-        node -e "Promise.resolve(require('./toolkit/packages/cache/lib/cache').saveCache(['curl', 'openssl', 'kernel', 'chromium'],'test-${{ runner.os }}-${{ github.run_id }}-${{ matrix.name }}-huge'))"
+        node -e "Promise.resolve(require('./toolkit/packages/cache/lib/cache').saveCache(['curl', 'openssl', 'gecko', 'chromium'],'test-${{ runner.os }}-${{ github.run_id }}-${{ matrix.name }}-huge'))"
 
     - name: Restore cache using restoreCache() with http-client - huge codebase
       run: |
-        node -e "Promise.resolve(require('./toolkit/packages/cache/lib/cache').restoreCache(['curl', 'openssl', 'kernel', 'chromium'],'test-${{ runner.os }}-${{ github.run_id }}-${{ matrix.name }}-huge',[],{useAzureSdk: false}))"
+        node -e "Promise.resolve(require('./toolkit/packages/cache/lib/cache').restoreCache(['curl', 'openssl', 'gecko', 'chromium'],'test-${{ runner.os }}-${{ github.run_id }}-${{ matrix.name }}-huge',[],{useAzureSdk: false}))"
