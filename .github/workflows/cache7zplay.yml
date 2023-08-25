@@ -11,19 +11,12 @@ jobs:
       fail-fast: false
       max-parallel: 2
       matrix:
-        name:
-          - 7z
-          - original
+        include:
+          - name: 7z
+            toolkit: dixyes/toolkit
+          - name: original
+            toolkit: dixyes/toolkit
     steps:
-    - name: Make condition
-      run: |
-        $ErrorActionPreference = 'Stop'
-        switch ('${{ matrix.name }}') {
-          'original' {
-            Write-Host "Remove 7-Zip"
-            Remove-Item "C:\Program Files\7-Zip\7z.exe"
-          }
-        }
 
     - name: Checkout curl
       uses: actions/checkout@v3
@@ -40,7 +33,7 @@ jobs:
     - name: Checkout cache
       uses: actions/checkout@v3
       with:
-        repository: dixyes/toolkit
+        repository: ${{ matrix.toolkit }}
         branch: windows-7z
         path: toolkit
 
