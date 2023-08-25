@@ -48,7 +48,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         repository: ${{ matrix.toolkit }}
-        branch: ${{ matrix.branch }}
+        ref: ${{ matrix.branch }}
         path: toolkit
 
     - name: Set Node.js 16.x
