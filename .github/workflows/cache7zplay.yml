@@ -33,6 +33,8 @@ jobs:
         path: curl
 
     - name: Checkout gecko
+      # too huge, will run out of disk quota
+      if: false
       uses: actions/checkout@v3
       with:
         repository: mozilla/gecko-dev
