@@ -1,0 +1,82 @@
+name: cacheplay
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: test for ${{ matrix.name }}
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        name:
+          - 7z
+          - original
+    steps:
+    - name: Make condition
+      run: |
+        $ErrorActionPreference = 'Stop'
+        switch ('${{ matrix.name }}') {
+          'original' {
+            Write-Host "Remove 7-Zip"
+            Remove-Item "C:\Program Files\7-Zip\7z.exe"
+          }
+        }
+
+    - name: Checkout curl
+      uses: actions/checkout@v3
+      with:
+        repository: curl/curl
+        path: curl
+
+    - name: Checkout openssl
+      uses: actions/checkout@v3
+      with:
+        repository: openssl/openssl
+        path: curl
+
+    - name: Checkout cache
+      uses: actions/checkout@v3
+      with:
+        repository: dixyes/toolkit
+        branch: windows-7z
+        path: toolkit
+
+    - name: Set Node.js 16.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.x
+
+    # In order to save & restore cache from a shell script, certain env variables need to be set that are only available in the
+    # node context. This runs a local action that gets and sets the necessary env variables that are needed
+    - name: Set env variables
+      uses: ./toolkit/packages/cache/__tests__/__fixtures__/
+
+    # Need root node_modules because certain npm packages like jest are configured for the entire repository and it won't be possible
+    # without these to just compile the cache package
+    - name: Install root npm packages
+      working-directory: toolkit
+      run: npm ci
+
+    - name: Compile cache package
+      run: |
+        npm ci
+        npm run tsc
+      working-directory: toolkit/packages/cache
+
+    # We're using node -e to call the functions directly available in the @actions/cache package
+    - name: Save cache using saveCache()
+      run: |
+        node -e "Promise.resolve(require('./toolkit/packages/cache/lib/cache').saveCache(['curl','openssl'],'test-${{ runner.os }}-${{ github.run_id }}-${{ matrix.name }}'))"
+
+    - name: Delete cache folders before restoring
+      shell: bash
+      run: |
+        rm -rf openssl
+        rm -rf curl
+
+    - name: Restore cache using restoreCache() with http-client
+      run: |
+        node -e "Promise.resolve(require('./toolkit/packages/cache/lib/cache').restoreCache(['curl','openssl'],'test-${{ runner.os }}-${{ github.run_id }}-${{ matrix.name }}',[],{useAzureSdk: false}))"
