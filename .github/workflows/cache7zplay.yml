@@ -16,7 +16,7 @@ jobs:
             toolkit: dixyes/toolkit
             branch: windows-7z
           - name: original
-            toolkit: dixyes/toolkit
+            toolkit: actions/toolkit
             branch: main
     steps:
 
