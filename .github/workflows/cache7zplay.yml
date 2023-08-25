@@ -19,6 +19,9 @@ jobs:
             toolkit: dixyes/toolkit
             branch: main
     steps:
+    - name: linux code git config
+      run: |
+        git config --global core.protectNTFS false
 
     - name: Checkout curl
       uses: actions/checkout@v3
@@ -38,7 +41,13 @@ jobs:
         repository: torvalds/linux
         path: kernel
 
-    - name: Checkout cache
+    - name: Checkout chromium
+      uses: actions/checkout@v3
+      with:
+        repository: chromium/chromium
+        path: chromium
+
+    - name: Checkout toolkit
       uses: actions/checkout@v3
       with:
         repository: ${{ matrix.toolkit }}
@@ -68,16 +77,18 @@ jobs:
       working-directory: toolkit/packages/cache
 
     # We're using node -e to call the functions directly available in the @actions/cache package
-    - name: Save cache using saveCache()
+    - name: Save cache using saveCache() - small codebase
       run: |
-        node -e "Promise.resolve(require('./toolkit/packages/cache/lib/cache').saveCache(['curl', 'openssl', 'kernel'],'test-${{ runner.os }}-${{ github.run_id }}-${{ matrix.name }}'))"
+        node -e "Promise.resolve(require('./toolkit/packages/cache/lib/cache').saveCache(['curl', 'openssl'],'test-${{ runner.os }}-${{ github.run_id }}-${{ matrix.name }}-small'))"
 
-    - name: Delete cache folders before restoring
-      shell: bash
+    - name: Restore cache using restoreCache() with http-client - small codebase
       run: |
-        rm -rf openssl
-        rm -rf curl
+        node -e "Promise.resolve(require('./toolkit/packages/cache/lib/cache').restoreCache(['curl', 'openssl'],'test-${{ runner.os }}-${{ github.run_id }}-${{ matrix.name }}-small',[],{useAzureSdk: false}))"
 
-    - name: Restore cache using restoreCache() with http-client
+    - name: Save cache using saveCache() - huge codebase
       run: |
-        node -e "Promise.resolve(require('./toolkit/packages/cache/lib/cache').restoreCache(['curl', 'openssl', 'kernel'],'test-${{ runner.os }}-${{ github.run_id }}-${{ matrix.name }}',[],{useAzureSdk: false}))"
+        node -e "Promise.resolve(require('./toolkit/packages/cache/lib/cache').saveCache(['curl', 'openssl', 'kernel', 'chromium'],'test-${{ runner.os }}-${{ github.run_id }}-${{ matrix.name }}-huge'))"
+
+    - name: Restore cache using restoreCache() with http-client - huge codebase
+      run: |
+        node -e "Promise.resolve(require('./toolkit/packages/cache/lib/cache').restoreCache(['curl', 'openssl', 'kernel', 'chromium'],'test-${{ runner.os }}-${{ github.run_id }}-${{ matrix.name }}-huge',[],{useAzureSdk: false}))"
