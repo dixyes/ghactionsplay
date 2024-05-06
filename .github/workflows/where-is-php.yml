@@ -1,0 +1,17 @@
+name: Where is php
+
+on:
+  workflow_dispatch:
+
+jobs:
+  php:
+    name: "where is php in ${{ matrix.os }}"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ macos-latest, macos-14, macos-13, macos-14-arm64, macos-13-arm64, macos-12 ]
+    steps:
+      - name: ???
+        run: |
+          uname -a
+          find / -type f 2>&- | grep php
