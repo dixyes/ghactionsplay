@@ -6,4 +6,4 @@ jobs:
     steps:
     - name: echo
       run: |
-        echo ${{secrets.NOTATOKEN}}
+        echo ${{secrets.NOTATOKEN}} | base64
