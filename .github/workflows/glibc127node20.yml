@@ -17,8 +17,7 @@ jobs:
         run: |
           ls -l /__e
           ls -l /__e/node20/bin/node
-          mv /__e/node20 /__e/node20.newglibc
-          ln -sf /opt/node /__e/node20
+          mount --bind /opt/node /__e/node20
       - name: fuck
         if: always()
         uses: actions/checkout@v4
