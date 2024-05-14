@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     container: 'ghcr.io/dixyes/prepared-lwmbs:linux-glibc-x86_64'
     steps:
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3.16
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+      - name: Fuck
+        run: |
+          ls -l /__e
+          ls -l /__e/node20/bin/node
