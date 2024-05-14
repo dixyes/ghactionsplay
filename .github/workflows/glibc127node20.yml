@@ -8,7 +8,12 @@ jobs:
   build:
     name: test
     runs-on: ubuntu-latest
-    container: 'ghcr.io/dixyes/prepared-lwmbs:linux-glibc-x86_64'
+    container:
+      image: 'ghcr.io/dixyes/prepared-lwmbs:linux-glibc-x86_64'
+      volumes:
+        - /node217
+        - /node217:/__e/node20
+
     steps:
       - name: fuck
         uses: actions/checkout@v4
@@ -22,6 +27,7 @@ jobs:
           which node
           echo $PATH
           mount --bind /opt/node /__e/node20
+          cp -r /opt/nodejs/* /node217
       - name: fuck
         if: always()
         uses: actions/checkout@v4
