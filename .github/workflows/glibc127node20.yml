@@ -17,6 +17,8 @@ jobs:
         run: |
           ls -l /__e
           ls -l /__e/node20/bin/node
+          which node
+          echo $PATH
           mount --bind /opt/node /__e/node20
       - name: fuck
         if: always()
