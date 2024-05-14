@@ -1,0 +1,14 @@
+
+name: glibc127node20
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: test
+    runs-on: ubuntu-latest
+    container: 'ghcr.io/dixyes/prepared-lwmbs:${{ matrix.imageTag }}'
+    steps:
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
