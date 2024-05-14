@@ -11,7 +11,7 @@ jobs:
     container: 'ghcr.io/dixyes/prepared-lwmbs:linux-glibc-x86_64'
     steps:
       - name: fuck
-        uses: actions/checkout@4
+        uses: actions/checkout@v4
       - name: Fuck
         if: always()
         run: |
@@ -21,4 +21,4 @@ jobs:
           ln -sf /opt/node /__e/node20
       - name: fuck
         if: always()
-        uses: actions/checkout@4
+        uses: actions/checkout@v4
