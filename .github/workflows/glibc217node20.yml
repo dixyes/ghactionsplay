@@ -1,0 +1,30 @@
+
+name: glibc217node20
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: test
+    runs-on: ubuntu-latest
+    container:
+      image: 'centos:7'
+      volumes:
+        - /node20217:/node20217:rw,rshared
+        - /node20217:/__e/node20:ro,rshared
+
+    steps:
+      - name: this will fail
+        uses: actions/checkout@v4
+
+      - name: install nodejs20glibc2.17
+        if: always()
+        run: |
+          wget https://unofficial-builds.nodejs.org/download/release/v20.9.0/node-v20.9.0-linux-x64-glibc-217.tar.xz
+          tar -xf node-v20.9.0-linux-x64-glibc-217.tar.xz -C /node20217
+          ldd /__e/node20/bin/node
+
+      - name: this works
+        if: always()
+        uses: actions/checkout@v4
