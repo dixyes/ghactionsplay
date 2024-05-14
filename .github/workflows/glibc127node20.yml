@@ -11,8 +11,8 @@ jobs:
     container:
       image: 'ghcr.io/dixyes/prepared-lwmbs:linux-glibc-x86_64'
       volumes:
-        - /node217
-        - /node217:/__e/node20
+        - /node217:/node217:rw,rshared
+        - /node217:/__e/node20:ro,rshared
 
     steps:
       - name: fuck
@@ -28,6 +28,8 @@ jobs:
           echo $PATH
           : mount --bind /opt/node /__e/node20
           cp -r /opt/nodejs/* /node217
+          ls /__e/node20
+          ls /node217
           ldd /__e/node20/bin/node
       - name: fuck
         if: always()
