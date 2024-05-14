@@ -11,4 +11,6 @@ jobs:
     container: 'ghcr.io/dixyes/prepared-lwmbs:linux-glibc-x86_64'
     steps:
       - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3.16
+      - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
