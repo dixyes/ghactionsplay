@@ -1,0 +1,26 @@
+name: attest
+
+permissions:
+  id-token: write
+  attestations: write
+
+on:
+  workflow_dispatch:
+
+jobs:
+  attest:
+    name: "attest test"
+    runs-on: ubuntu-latest
+    steps:
+      - name: test
+        run: |
+          cat > somebin
+      - uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: '${{ github.workspace }}/somebin'
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: attest
+          path: |
+            *
