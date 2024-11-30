@@ -1,0 +1,42 @@
+name: showenv
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+    - 'v*'
+
+jobs:
+  showenv:
+    name: showenv
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show env
+        shell: cat {0}
+        run: |
+          ---- github ----
+          ${{ toJSON(github) }}
+          ---- env ----
+          ${{ toJSON(env) }}
+          ---- vars ----
+          ${{ toJSON(vars) }}
+          ---- job ----
+          ${{ toJSON(job) }}
+          ---- jobs ----
+          ${{ toJSON(jobs) }}
+          ---- steps ----
+          ${{ toJSON(steps) }}
+          ---- runner ----
+          ${{ toJSON(runner) }}
+          ---- secrets ----
+          ${{ toJSON(secrets) }}
+          ---- strategy ----
+          ${{ toJSON(strategy) }}
+          ---- matrix ----
+          ${{ toJSON(matrix) }}
+          ---- needs ----
+          ${{ toJSON(needs) }}
+          ---- inputs ----
+          ${{ toJSON(inputs) }}
+          
+          
