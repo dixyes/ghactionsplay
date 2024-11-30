@@ -23,7 +23,7 @@ jobs:
           ---- job ----
           ${{ toJSON(job) }}
           ---- jobs ----
-          ${{ toJSON(jobs) }}
+          {{ toJSON(jobs) }}
           ---- steps ----
           ${{ toJSON(steps) }}
           ---- runner ----
